@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -7,11 +9,16 @@ from .routes import auth_routes, export_routes, history_routes, mock_routes, que
 
 Base.metadata.create_all(bind=engine)
 
+
+def _get_allowed_origins() -> list[str]:
+    origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
+    return [origin.strip() for origin in origins if origin.strip()]
+
 app = FastAPI(title="AI Interview Question Generator API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

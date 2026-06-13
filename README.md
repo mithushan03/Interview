@@ -1,6 +1,6 @@
 # AI Interview Question Generator & Mock Interview Coach
 
-An end-to-end full-stack AI interview preparation platform built with React, Vite, Tailwind CSS, FastAPI, SQLAlchemy, and SQLite. The application helps candidates generate personalized interview questions, practice mock interviews, analyze resumes and job descriptions, save question history, and export preparation packs as PDF.
+An end-to-end full-stack AI interview preparation platform built with React, Vite, Tailwind CSS, FastAPI, and SQLAlchemy. The application helps candidates generate personalized interview questions, practice mock interviews, analyze resumes and job descriptions, save question history, and export preparation packs as PDF.
 
 ## Features
 
@@ -17,8 +17,8 @@ An end-to-end full-stack AI interview preparation platform built with React, Vit
 
 - Frontend: React, Vite, Tailwind CSS, React Router, Axios, Lucide React
 - Backend: FastAPI, SQLAlchemy, Pydantic, JWT auth, ReportLab, PyMuPDF
-- Database: SQLite by default, switchable to PostgreSQL through `DATABASE_URL`
-- AI: OpenAI API with a deterministic fallback mode for local setup
+- Database: SQLite by default, PostgreSQL in production through `DATABASE_URL`
+- AI: Gemini API with a deterministic fallback mode when no API key is configured
 
 ## Screenshots
 
@@ -49,6 +49,51 @@ The frontend runs on `http://localhost:5173` and calls `http://127.0.0.1:8000/ap
 
 Use Python 3.11 or 3.12 for the backend. Python 3.14 on this machine did not have a compatible `pydantic-core` wheel during verification.
 
+## Production Deployment
+
+Recommended setup:
+
+- Frontend: Vercel
+- Backend: Render Web Service
+- Database: Render Postgres
+
+### Render backend
+
+- Root Directory: `backend`
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- Python version: `3.11.9`
+
+Required environment variables:
+
+```env
+DATABASE_URL=postgresql://...
+GEMINI_API_KEY=your_api_key_here
+GEMINI_MODEL=gemini-2.5-flash
+JWT_SECRET_KEY=your_secret_here
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=0
+ALLOWED_ORIGINS=https://your-vercel-project.vercel.app
+```
+
+Health check:
+
+- `https://your-render-service.onrender.com/api/health`
+
+### Vercel frontend
+
+- Root Directory: `frontend`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+
+Required environment variable:
+
+```env
+VITE_API_URL=https://your-render-service.onrender.com/api
+```
+
+After changing `VITE_API_URL`, redeploy the Vercel project. Vite reads environment variables at build time.
+
 ## API Endpoints
 
 - `POST /api/auth/register`
@@ -72,12 +117,13 @@ Use Python 3.11 or 3.12 for the backend. Python 3.14 on this machine did not hav
 Base values are in [backend/.env.example](/w:/Linkdin/Interview/backend/.env.example).
 
 ```env
-OPENAI_API_KEY=your_api_key_here
-OPENAI_MODEL=gpt-4o-mini
+GEMINI_API_KEY=your_api_key_here
+GEMINI_MODEL=gemini-2.5-flash
 DATABASE_URL=sqlite:///./interview_ai.db
-JWT_SECRET_KEY=your_secret_key_here
+JWT_SECRET_KEY=your_secret_here
 JWT_ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=60
+ACCESS_TOKEN_EXPIRE_MINUTES=0
+ALLOWED_ORIGINS=http://localhost:5173,https://your-vercel-project.vercel.app
 ```
 
 ## Docker Compose
