@@ -168,19 +168,6 @@ SQLite / PostgreSQL
 
 ---
 
-## 📸 Screenshots
-
-> Add your project screenshots inside a `screenshots` folder and update the paths below.
-
-```md
-![Home Page](./screenshots/home.png)
-![Dashboard](./screenshots/dashboard.png)
-![Question Generator](./screenshots/question-generator.png)
-![Login Page](./screenshots/login.png)
-```
-
----
-
 ## 📂 Folder Structure
 
 ```bash
@@ -582,9 +569,9 @@ Developed by **Mithushan**
 ### Connect
 
 - 🌐 Live App: [InterviewIQ](https://interview-roan-five.vercel.app/)
-- 💻 GitHub: [https://github.com/your-username](https://github.com/your-username)
-- 🔗 LinkedIn: [https://linkedin.com/in/your-linkedin](https://linkedin.com/in/your-linkedin)
-- 📧 Email: your-email@example.com
+- 💻 GitHub: [https://github.com/mithushan03](https://github.com/mithushan03))
+- 🔗 LinkedIn: [https://linkedin.com/in/mithu03](https://linkedin.com/in/mithu03)
+- 📧 Email: smithushan03@ggmail.com
 
 ---
 
